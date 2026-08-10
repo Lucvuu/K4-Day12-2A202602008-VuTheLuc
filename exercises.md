@@ -213,4 +213,23 @@ Ghi lại **một** lỗi bạn gặp khi deploy lên cloud (build fail, health 
 timeout, sai REDIS_URL, app không đọc `$PORT`...): thông báo lỗi là gì, bạn
 tìm ra nguyên nhân bằng cách nào, và sửa ra sao?
 
-> *Câu trả lời của bạn*
+> Khi deploy service lên Render, tôi gặp lỗi: gọi endpoint `/chat` với đúng
+> header `Authorization: Bearer <token>` nhưng vẫn nhận về
+> `401 {"detail":"invalid or missing bearer token"}`. Trong khi đó
+> `/healthz` và `/readyz` đều trả 200, nên tôi loại trừ được lỗi build,
+> lỗi service khởi động và lỗi kết nối Redis.
+>
+> Tôi tiếp tục kiểm tra bằng cách so sánh hành vi khi gọi `/chat` có và
+> không có token. Không có token trả 401 là đúng, nhưng có token đúng vẫn
+> 401, nên tôi nghi ngờ giá trị biến môi trường `API_TOKEN` trên Render
+> không khớp với token đang dùng để gọi API.
+>
+> Tôi vào Render → Environment, xóa giá trị cũ của `API_TOKEN` để tránh ký
+> tự thừa hoặc khoảng trắng do copy-paste, sau đó dán lại token chính xác
+> và chọn Save Changes. Render tự động redeploy service. Sau khi deploy
+> xong, tôi gọi lại `/chat` với Bearer token và nhận được HTTP 200 cùng
+> response của chat service.
+>
+> Qua lỗi này tôi thấy rằng health check có thể vẫn pass dù một cấu hình
+> bảo mật như `API_TOKEN` bị sai, vì `/healthz` và `/readyz` không kiểm
+> tra tính đúng của token xác thực.

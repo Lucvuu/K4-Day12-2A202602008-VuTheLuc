@@ -10,9 +10,9 @@
 
 | Mục | Nội dung |
 |-----|----------|
-| Họ và tên | (điền họ tên) |
-| Mã học viên | (điền mã học viên) |
-| Repo | (điền link repo K4-DAY12-...) |
+| Họ và tên | Vũ Thế Lực |
+| Mã học viên | 2A202602008 |
+| Repo | https://github.com/Lucvuu/K4-DAY12-2A202602008-VuTheLuc |
 
 ## Service
 
